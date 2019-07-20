@@ -1,3 +1,4 @@
+/*
 package com.example.websocketdemo.aspect;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -18,7 +19,7 @@ public class LogAspect {
      * 
      * @Around("execution(* iducs.springboot.board.controller..*.*(..))")
      * @Around("execution(* iducs.springboot.board..*.*(..))")
-     */    
+     *    
     @Around("execution(* iducs.springboot.board.service.*Service.*(..))")
     
     public Object logging(ProceedingJoinPoint pjp) throws Throwable {
@@ -30,3 +31,4 @@ public class LogAspect {
         return result;
     }
 }
+*/

@@ -1,4 +1,5 @@
-package iducs.springboot.board.controller;
+/*
+package com.example.websocketdemo.controller;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -65,7 +66,7 @@ public class UserController {
 		return "/users/withdrawal";
 	}
 	
-	/*
+	//*
 	@PatchMapping("/users/{id}")
 	//@RequestBody 사용하는 경우 
 	public ResponseEntity<User> patchUserById(@PathVariable(value = "id") Long userId, @Valid  User userDetails, Model model)
@@ -94,5 +95,7 @@ public class UserController {
 		model.addAttribute("users", users);
 		return "user-list";
 	}
-	*/
+	//*
 }
+
+*/

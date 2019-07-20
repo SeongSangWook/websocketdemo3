@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import com.example.websocketdemo.domain.User;
@@ -18,16 +19,18 @@ public class UserEntity {
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.AUTO)
-//	@OrderBy
+	@OrderBy
 	private Long id; // database에서 sequence number, primary key 역할
 	
 	@Column(nullable=false, length=20, unique=true) // null 하용 안함, 유일키
 	private String userId;
 	@Column(nullable=false)
 	private String userPw;
+	@Column(nullable=false)
 	private String name;
 	
-	private String company;
+	// 얼굴 사진 profile 필드, 생략
+	// 친구 기능 friend List<User> 생략
 		
 	public Long getId() {
 		return id;
@@ -53,26 +56,19 @@ public class UserEntity {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getCompany() {
-		return company;
-	}
-	public void setCompany(String company) {
-		this.company = company;
-	}	
+	
 	public User buildDomain() {
 		User user = new User();
 		user.setId(id);
 		user.setUserId(userId);
 		user.setUserPw(userPw);
 		user.setName(name);
-		user.setCompany(company);
 		return user;
-	}	
+	}
 	public void buildEntity(User user) {
 		id = user.getId();
 		userId = user.getUserId();
 		userPw = user.getUserPw();
 		name = user.getName();
-		company = user.getCompany();
 	}
 }

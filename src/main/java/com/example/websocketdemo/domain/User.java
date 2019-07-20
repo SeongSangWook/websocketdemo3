@@ -5,7 +5,6 @@ public class User {
 	private String userId; // unique key
 	private String userPw;	
 	private String name;
-	private String company;
 	
 	public User()  {}
 	public User(String userId, String userPw, String name, String company) {
@@ -13,7 +12,6 @@ public class User {
 		this.userId = userId;
 		this.userPw = userPw;
 		this.name = name;
-		this.company = company;
 	}
 	
 	public long getId() {
@@ -40,11 +38,28 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getCompany() {
-		return company;
-	}
-	public void setCompany(String company) {
-		this.company = company;
-	}
 	
+	@Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+        return result;
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        User other = (User) obj;
+        if (userId == null) {
+            if (other.userId != null)
+                return false;
+        } else if (!userId.equals(other.userId))
+            return false;
+        return true;
+    }
 }
