@@ -28,18 +28,24 @@ public class MessageEntity {
 	@ManyToOne
 	@JoinColumn(name="fk_user")
 	private UserEntity user;
+	// 한 명의 유저는 여러 개의 메시지를 작성할 수 있다.
+	// 한 개의 메시지는 하나의 유저를 갖는다.
+	// 1:n
+	// 양방향으로 하고싶으면 반대쪽(UserEntity)에서도 OneToMany 어노테이션 사용
 	
 	// class : 메시지 타입(사진, 오디오, 텍스트) 생략.
 	
 	@Column(nullable=false)
 	private String contents;
 	
-	// 얼굴 사진 profile 필드, 생략
-	// 친구 기능 List<User> 생략
-	
 	@ManyToOne
 	@JoinColumn(name="fk_chatroom")
 	private ChatroomEntity chatroom;
+	// 한 개의 채팅룸은 여러 개의 메시지를 가질 수 있다.
+	// 한 개의 메시지는 하나의 채팅룸을 갖는다.
+	// 1:n
+	// 양방향으로 하고싶으면 반대쪽(UserEntity)에서도 OneToMany 어노테이션 사용
+	// 양방향 권장
 	
 	private LocalDateTime chatTime;
 	
