@@ -1,4 +1,3 @@
-/*
 package com.example.websocketdemo.repository;
 
 import java.util.List;
@@ -14,7 +13,5 @@ import com.example.websocketdemo.entity.UserEntity;
 public interface UserRepository	extends JpaRepository<UserEntity, Long> {	
 	UserEntity findByUserId(String userId);
 	List<UserEntity> findByNameOrderByIdAsc(String name);
-	Page<UserEntity> findAll(Pageable pageable);
 	UserEntity findById(long id); 
 }
-*/

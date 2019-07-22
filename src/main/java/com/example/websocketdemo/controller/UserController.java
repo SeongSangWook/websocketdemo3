@@ -1,4 +1,3 @@
-/*
 package com.example.websocketdemo.controller;
 
 import javax.servlet.http.HttpSession;
@@ -15,9 +14,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import iducs.springboot.board.domain.User;
-import iducs.springboot.board.service.UserService;
-import iducs.springboot.board.utils.HttpSessionUtils;
+import com.example.websocketdemo.domain.User;
+import com.example.websocketdemo.service.UserService;
+import com.example.websocketdemo.HttpSessionUtils;
 
 @Controller
 @RequestMapping("/users")
@@ -53,7 +52,6 @@ public class UserController {
 		User user = userService.getUserById(id);
 		user.setUserPw(formUser.getUserPw());
 		user.setName(formUser.getName());
-		user.setCompany(formUser.getCompany());
 		userService.updateUser(user);		
 		model.addAttribute("user", user);
 		session.setAttribute("user", user);
@@ -65,37 +63,4 @@ public class UserController {
 		model.addAttribute("name", formUser.getName());
 		return "/users/withdrawal";
 	}
-	
-	//*
-	@PatchMapping("/users/{id}")
-	//@RequestBody 사용하는 경우 
-	public ResponseEntity<User> patchUserById(@PathVariable(value = "id") Long userId, @Valid  User userDetails, Model model)
-			throws ResourceNotFoundException {
-		// orElseThrow() : 해당 값이 존재하는 경우 반환하고, 없는 경우 제공자(supplier)에 의해 제공되는 예외 반환
-		User user = userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + userId));
-		user.setName(userDetails.getName());
-		//user.setCompany(userDetails.getCompany());
-		User userUpdate = userRepo.save(user);
-		return ResponseEntity.ok(userUpdate);
-		// 
-		//return ResponseEntity.ok().body(user);
-	}
-
-	@GetMapping("/users/n")
-	public String getEmployeeByName(@Param(value = "name") String name, Model model)
-			throws ResourceNotFoundException {
-		List<User> users = userRepo.findByNameOrderByIdAsc(name);
-		model.addAttribute("users", users);
-		return "user-list";
-	}
-	@GetMapping("/users/c")
-	public String getUserByCompany(@Param(value = "company") String company, Model model)
-			throws ResourceNotFoundException {
-		List<User> users = userRepo.findByCompany(company);
-		model.addAttribute("users", users);
-		return "user-list";
-	}
-	//*
 }
-
-*/

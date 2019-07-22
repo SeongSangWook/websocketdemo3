@@ -1,4 +1,3 @@
-/*
 package com.example.websocketdemo.service;
 
 import java.util.ArrayList;
@@ -51,18 +50,6 @@ public class UserServiceImpl implements UserService {
 		return users;
 	}
 	
-	@Override
-	public List<User> getUsers(Long pageNo) {
-		PageRequest pageRequest = PageRequest.of((int) (pageNo - 1), 3, new Sort(Sort.Direction.DESC, "id"));
-		Page<UserEntity> entities = repository.findAll(pageRequest);
-		List<User> users = new ArrayList<User>();
-		for(UserEntity entity : entities) {
-			User user = entity.buildDomain();
-			users.add(user);
-		}
-		return users;
-	}	
-	
 	public List<User> getUsers() {
 		List<User> users = new ArrayList<User>();
 		List<UserEntity> entities = repository.findAll();
@@ -81,23 +68,6 @@ public class UserServiceImpl implements UserService {
 			users.add(user);
 		}
 		return users;
-	}
-
-	@Override
-	public List<User> getUsersByCompany(String company) {
-		List<User> users = new ArrayList<User>();
-		List<UserEntity> entities = repository.findByCompany(company);
-		for(UserEntity entity : entities) {
-			User user = entity.buildDomain();
-			users.add(user);
-		}
-		return users;
-	}
-
-	@Override
-	public List<User> getUsersByPage(int index, int size) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -121,4 +91,3 @@ public class UserServiceImpl implements UserService {
 		repository.delete(entity);
 	}
 }
-*/
