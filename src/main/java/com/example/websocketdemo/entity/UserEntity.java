@@ -8,6 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -33,6 +36,11 @@ public class UserEntity {
 	@OneToMany(mappedBy="user")
 	private List<MessageEntity> messages = new ArrayList<MessageEntity>();
 	
+	@ManyToMany
+	@JoinTable(name="User_Chatroom",
+			joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "chatroom_id"))
+	private List<ChatroomEntity> chatrooms = new ArrayList<ChatroomEntity>();
 	
 	// 얼굴 사진 profile 필드, 생략
 	// 친구 기능 friend List<User> 생략
@@ -67,7 +75,12 @@ public class UserEntity {
 	public void setMessages(List<MessageEntity> messages) {
 		this.messages = messages;
 	}
-	
+	public List<ChatroomEntity> getChatrooms() {
+		return chatrooms;
+	}
+	public void setChatrooms(List<ChatroomEntity> chatrooms) {
+		this.chatrooms = chatrooms;
+	}
 	public User buildDomain() {
 		User user = new User();
 		user.setId(id);
@@ -81,7 +94,12 @@ public class UserEntity {
 			// List 인터페이스의 add 메서드는 List에 요소를 추가한다.
 			// List 인터페이스의 get 메서드는 List에서 i번째 요소를 return 한다.
 		}
-		
+		for(int i=0;i<chatrooms.size();i++) {
+			// List 인터페이스의 size()메서드는 List 내부의 요소들의 갯수를 의미한다.
+			user.getChatrooms().add(chatrooms.get(i).buildDomain());
+			// List 인터페이스의 add 메서드는 List에 요소를 추가한다.
+			// List 인터페이스의 get 메서드는 List에서 i번째 요소를 return 한다.
+		}
 		return user;
 	}
 	public void buildEntity(User user) {
@@ -95,6 +113,13 @@ public class UserEntity {
 		for(int i=0;i<user.getMessages().size();i++) {
 			messageEntity.buildEntity(user.getMessages().get(i));
 			messages.add(messageEntity);
+		}
+		
+		ChatroomEntity chatroomEntity = new ChatroomEntity();
+		// Message -> MessageEntity
+		for(int i=0;i<user.getChatrooms().size();i++) {
+			chatroomEntity.buildEntity(user.getChatrooms().get(i));
+			chatrooms.add(chatroomEntity);
 		}
 	}
 }

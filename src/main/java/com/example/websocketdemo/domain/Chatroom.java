@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.websocketdemo.entity.MessageEntity;
+import com.example.websocketdemo.entity.UserEntity;
 
 public class Chatroom {
 	private long id; // primary key
 	private String name;
 	private List<Message> messages = new ArrayList<Message>();
+	private List<User> users = new ArrayList<User>();
 	
 	public Chatroom()  {}
 	public Chatroom(String userId, String name) {
@@ -33,5 +35,11 @@ public class Chatroom {
 	}
 	public void setMessages(List<Message> messages) {
 		this.messages = messages;
+	}
+	public List<User> getUsers() {
+		return users;
+	}
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 }

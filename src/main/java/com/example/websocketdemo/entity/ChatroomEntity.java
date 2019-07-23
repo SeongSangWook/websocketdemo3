@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -34,6 +35,9 @@ public class ChatroomEntity {
 	@OneToMany(mappedBy="chatroom")
 	private List<MessageEntity> messages = new ArrayList<MessageEntity>();
 	
+	@ManyToMany(mappedBy="chatrooms")
+	private List<UserEntity> users = new ArrayList<UserEntity>();
+	
 	public Long getId() {
 		return id;
 	}
@@ -52,6 +56,12 @@ public class ChatroomEntity {
 	public void setMessages(List<MessageEntity> messages) {
 		this.messages = messages;
 	}
+	public List<UserEntity> getUsers() {
+		return users;
+	}
+	public void setUsers(List<UserEntity> users) {
+		this.users = users;
+	}
 	
 	public Chatroom buildDomain() {
 		Chatroom chatroom = new Chatroom();
@@ -60,6 +70,12 @@ public class ChatroomEntity {
 		for(int i=0;i<messages.size();i++) {
 			// List 인터페이스의 size()메서드는 List 내부의 요소들의 갯수를 의미한다.
 			chatroom.getMessages().add(messages.get(i).buildDomain());
+			// List 인터페이스의 add 메서드는 List에 요소를 추가한다.
+			// List 인터페이스의 get 메서드는 List에서 i번째 요소를 return 한다.
+		}
+		for(int i=0;i<users.size();i++) {
+			// List 인터페이스의 size()메서드는 List 내부의 요소들의 갯수를 의미한다.
+			chatroom.getUsers().add(users.get(i).buildDomain());
 			// List 인터페이스의 add 메서드는 List에 요소를 추가한다.
 			// List 인터페이스의 get 메서드는 List에서 i번째 요소를 return 한다.
 		}
@@ -73,6 +89,11 @@ public class ChatroomEntity {
 		// Message -> MessageEntity
 		for(int i=0;i<chatroom.getMessages().size();i++) {
 			messageEntity.buildEntity(chatroom.getMessages().get(i));
+			messages.add(messageEntity);
+		}
+		UserEntity userEntity = new UserEntity();
+		for(int i=0;i<chatroom.getUsers().size();i++) {
+			userEntity.buildEntity(chatroom.getUsers().get(i));
 			messages.add(messageEntity);
 		}
 	}
