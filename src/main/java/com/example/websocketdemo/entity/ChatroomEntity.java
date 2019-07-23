@@ -29,9 +29,10 @@ public class ChatroomEntity {
 	
 	/*
 	// kind : 오픈채팅/비밀채닝/etc... 생략
+	 * 
+	 */
 	@OneToMany(mappedBy="chatroom")
 	private List<MessageEntity> messages = new ArrayList<MessageEntity>();
-	*/
 	
 	public Long getId() {
 		return id;
@@ -45,27 +46,34 @@ public class ChatroomEntity {
 	public void setName(String name) {
 		this.name = name;
 	}
-	/*
 	public List<MessageEntity> getMessages() {
 		return messages;
 	}
 	public void setMessages(List<MessageEntity> messages) {
 		this.messages = messages;
 	}
-	*/
 	
 	public Chatroom buildDomain() {
 		Chatroom chatroom = new Chatroom();
 		chatroom.setId(id);
-		/*
-		for(int i=;i<
-		messages.add(messages.get)
-		*/
 		chatroom.setName(name);
+		for(int i=0;i<messages.size();i++) {
+			// List 인터페이스의 size()메서드는 List 내부의 요소들의 갯수를 의미한다.
+			chatroom.getMessages().add(messages.get(i).buildDomain());
+			// List 인터페이스의 add 메서드는 List에 요소를 추가한다.
+			// List 인터페이스의 get 메서드는 List에서 i번째 요소를 return 한다.
+		}
 		return chatroom;
 	}	
 	public void buildEntity(Chatroom chatroom) {
 		id = chatroom.getId();
 		name = chatroom.getName();
+		
+		MessageEntity messageEntity = new MessageEntity();
+		// Message -> MessageEntity
+		for(int i=0;i<chatroom.getMessages().size();i++) {
+			messageEntity.buildEntity(chatroom.getMessages().get(i));
+			messages.add(messageEntity);
+		}
 	}
 }

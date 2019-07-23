@@ -8,13 +8,12 @@ import com.example.websocketdemo.entity.MessageEntity;
 public class Chatroom {
 	private long id; // primary key
 	private String name;
-	// private List<Message> messages = new ArrayList<Message>();
+	private List<Message> messages = new ArrayList<Message>();
 	
 	public Chatroom()  {}
-	public Chatroom(String userId, String name, List<Message> messages) {
+	public Chatroom(String userId, String name) {
 		super();
 		this.name = name;
-		// this.messages = messages;
 	}
 	
 	public long getId() {
@@ -29,13 +28,10 @@ public class Chatroom {
 	public void setName(String name) {
 		this.name = name;
 	}
-	/*
 	public List<Message> getMessages() {
 		return messages;
 	}
 	public void setMessages(List<Message> messages) {
 		this.messages = messages;
 	}
-	*/
-	
 }

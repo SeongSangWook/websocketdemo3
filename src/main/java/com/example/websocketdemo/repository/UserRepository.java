@@ -13,5 +13,5 @@ import com.example.websocketdemo.entity.UserEntity;
 public interface UserRepository	extends JpaRepository<UserEntity, Long> {	
 	UserEntity findByUserId(String userId);
 	List<UserEntity> findByNameOrderByIdAsc(String name);
-	UserEntity findById(long id); 
+	UserEntity findById(long id);
 }
