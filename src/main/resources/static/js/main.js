@@ -148,8 +148,8 @@ function goToRegister() {
     registerPage.classList.remove('hidden');
     
 }
-function kkk() {
-	alert("asdf");
+function register() {
+	var id = document.getElementById("user")
 }
 
 $(document).ready(function(){
@@ -166,4 +166,5 @@ $(document).ready(function(){
 
 // usernameForm.addEventListener('submit', connect, true);
 messageForm.addEventListener('submit', sendMessage, true);
+registerForm.addEventListener('submit', register, true);
 // 버튼 EventListener 설정
