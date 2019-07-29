@@ -1,17 +1,40 @@
 'use strict';
 // strict 모드 사용. 자바스크립트가 묵인했던 에러들의 에러 메시지 발생(엄격한 문법 검사)
 
-// var contents = document.querySelector('#contents');
+currentPage = getCookie("currentPage");
+$(document).ready( function() {
+	$("#contents-page").load(currentPage);
+});
 
-var usernamePage = document.querySelector('#username-page');
-var chatPage = document.querySelector('#chat-page');
-var registerPage = document.querySelector('#register-page');
-var usernameForm = document.querySelector('#usernameForm');
-var messageForm = document.querySelector('#messageForm');
-var registerForm = document.querySelector('#registerForm');
-var messageInput = document.querySelector('#message');
-var messageArea = document.querySelector('#messageArea');
-var connectingElement = document.querySelector('.connecting');
+var sessionUser = sessionStorage.getItem("user");
+
+if(sessionUser){
+	name = sessionUser.name;
+    stompClient.connect({}, onConnected, onError);
+}
+
+
+var currentPage = getCookie("currentPage");
+
+if(currentPage == null || currentPage == "login.html") {
+	setCookie("currentPage", "login.html");
+	var loginForm = document.querySelector('#loginForm');	
+} else if (currentPage == "register.html") {
+	var registerForm = document.querySelector('#registerForm');
+	
+} else if (currentPage == "user.html") {
+	
+} else if (currentPage == "chatlist.html") {
+	
+} else if (currentPage == "chatroom.html") {
+	var messageForm = document.querySelector('#messageForm');
+	var messageInput = document.querySelector('#message');
+	var messageArea = document.querySelector('#messageArea');
+	var connectingElement = document.querySelector('.connecting');
+} else {
+	currentPage = "error.html"
+}
+
 // document객체의 메서드를 통해 객체 찾기
 
 var socket = new SockJS('/ws');
@@ -46,7 +69,7 @@ function connect(event) {
     
     /*
     if(username) {
-        usernamePage.classList.add('hidden');
+        loginPage.classList.add('hidden');
         chatPage.classList.remove('hidden');
         stompClient.connect({}, onConnected, onError);
         socket = new SockJS('/ws');
@@ -160,11 +183,7 @@ function getAvatarColor(messageSender) {
     return colors[index];
     // 아바타 색 랜덤 지정
 }
-function goToRegister() {
-    usernamePage.classList.add("hidden");
-    registerPage.classList.remove('hidden');
-    
-}
+
 function register() {
 	var registerForm=document.getElementById("registerForm"); //폼 name
 	
@@ -191,25 +210,9 @@ function register() {
     // registerForm.submit();
 }
 
-$(document).ready(function(){
-	$("#usernameForm button").click(function (event) {
-		event.preventDefault();
-		if ($(this).attr("value") == "button1") {             
-			connect();
-		}
-		else if ($(this).attr("value") == "button2") {
-			goToRegister();
-		}
-	});
-	
-	if(sessionUser!=null){
-		usernamePage.classList.add('hidden');
-        chatPage.classList.remove('hidden');
-        stompClient.connect({}, onConnected, onError);
-	}
-});
 
-// usernameForm.addEventListener('submit', connect, true);
-messageForm.addEventListener('submit', sendMessage, true);
-registerForm.addEventListener('submit', register, true);
+
+// loginForm.addEventListener('submit', connect, true);
+// messageForm.addEventListener('submit', sendMessage, true);
+// registerForm.addEventListener('submit', register, true);
 // 버튼 EventListener 설정
