@@ -4,7 +4,13 @@ import com.example.websocketdemo.domain.User;
 import com.example.websocketdemo.model.ChatMessage;
 import com.example.websocketdemo.service.UserService;
 
+import java.util.Map;
+
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+import javax.websocket.EndpointConfig;
+import javax.websocket.Session;
+import javax.websocket.server.ServerEndpoint;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -12,8 +18,11 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
+@SessionAttributes("user")
 public class ChatController {
 	/*
 	 * Client -> Server Stomp 요청시
@@ -41,32 +50,8 @@ public class ChatController {
     }
     
     @MessageMapping("/registerUser")
-    @SendTo("/topic/public")
-    public User registerUser(@Payload User user) {
+    public void registerUser(@Payload User user) {
         // Add username in web socket session
         userService.saveUser(user);
-        return user;
-    }
-    
-    @MessageMapping("/loginUser")
-    @SendTo("/topic/public")
-    public User loginUser(@Payload User user, HttpSession session) {
-		System.out.println("asdf");
-		return user;
-    	/*
-    	User sessionUser = userService.getUserByUserId(user.getUserId());
-		System.out.println(sessionUser.getUserId());
-		System.out.println(sessionUser.getUserPw());
-		System.out.println(sessionUser.getName());
-		
-		if(sessionUser == null) {
-			System.out.println("id error : ");
-		}
-		else if(!sessionUser.getUserPw().equals(user.getUserPw())) {
-			System.out.println("pw error : ");
-		}
-		session.setAttribute("user", sessionUser);
-		*/
-		
     }
 }

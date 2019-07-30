@@ -12,7 +12,8 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").withSockJS(); 
+        // registry.addEndpoint("/ws").addInterceptors(new HttpHandshakeInterceptor()).withSockJS();
+    	registry.addEndpoint("/ws").withSockJS();
         // WebSocket 위치 : localhost:8080/ws
         // withSockJS : WebSocket이 지원되지 않는 브라우저에 WebSocket 지원
     }
