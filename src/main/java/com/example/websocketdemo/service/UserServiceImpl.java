@@ -31,18 +31,6 @@ public class UserServiceImpl implements UserService {
 		}
 		return userEntity.buildDomain();
 	}
-
-	
-
-	public List<User> getUsers(PageRequest pageRequest) {
-		List<User> users = new ArrayList<User>();
-		Page<UserEntity> entities = repository.findAll(pageRequest);
-		for(UserEntity entity : entities) {
-			User user = entity.buildDomain();
-			users.add(user);
-		}
-		return users;
-	}
 	
 	public List<User> getUsers() {
 		List<User> users = new ArrayList<User>();
@@ -65,6 +53,18 @@ public class UserServiceImpl implements UserService {
 	}
 	*/
 	@Override
+	public List<User> getUsers() {
+		List<User> users = new ArrayList<User>();
+		List<UserEntity> userentities = repository.findAll();
+		
+		for(UserEntity entity : userentities) {
+			User user = entity.buildDomain();
+			users.add(user);
+		}
+		return users;
+	}
+	
+	@Override
 	public User getUserByUserId(String userId) {
 		UserEntity userEntity = repository.findByUserId(userId);
 		if(userEntity == null)
@@ -78,8 +78,8 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		UserEntity entity = new UserEntity();
 		entity.buildEntity(user);
-		if(repository.findByUserId(user.getUserId())==null)
-			repository.save(entity);
+		
+		repository.save(entity);
 	}
 	@Override
 	public void updateUser(User user) {

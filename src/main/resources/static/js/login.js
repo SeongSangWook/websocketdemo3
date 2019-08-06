@@ -1,7 +1,10 @@
+var form = document.getElementById('loginForm');
 function login() {
-	connect();
+	form.setAttribute('method', 'get');
+	form.submit();
 }
 
 function goToRegister() {
-	setCookie("currentPage", "register.html");
+	form.setAttribute('method', 'post');
+	form.submit();
 }

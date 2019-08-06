@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0"/>
+    <title>TitleName</title>
+    
+    <link rel="stylesheet" href="/css/main.css" />	
+	
+	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="js/sockjs.min.js"></script>
+	<script src="js/stomp.min.js"></script>
+	<script src="js/cookie.js"></script>
+	<script src="js/main.js"></script>
+</head>
+<body>
+<noscript>
+    <h2>Sorry! Your browser doesn't support Javascript</h2>
+</noscript>
+
+<div id="contents-page">
+	<div class="login-page-container">
+	    <h1 class="title">Welcome</h1>
+	    <form id="loginForm" name="loginForm" th:object="${user}">
+	        <div class="form-group">
+   	            <input type="text" id="userid" th:field="*{userId}" placeholder="ID" autocomplete="off" class="form-control" />
+	            <input type="text" id="userpw" th:field="*{userPw}" placeholder="Password" autocomplete="off" class="form-control" />
+	        </div>
+	        <div class="form-group">
+	            <button class="accent submit" onClick="login()">Login</button>
+	            <button class="accent submit" onClick="goToRegister()">Go To Register</button>
+	        </div>
+	    </form>
+	</div>
+	
+	<script src="js/login.js"></script>
+</div>
+</body>
+</html>

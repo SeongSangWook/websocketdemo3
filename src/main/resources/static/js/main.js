@@ -1,49 +1,33 @@
 'use strict';
 // strict 모드 사용. 자바스크립트가 묵인했던 에러들의 에러 메시지 발생(엄격한 문법 검사)
-
-currentPage = getCookie("currentPage");
-$(document).ready( function() {
-	$("#contents-page").load(currentPage);
-});
-
+/*
 var sessionUser = sessionStorage.getItem("user");
+var sessionRoomIds = sessionStorage.getItem("roomids")
 
+var name = null;
 if(sessionUser){
 	name = sessionUser.name;
-    stompClient.connect({}, onConnected, onError);
+	var roomId = "[[${showTextFromJavaController}]]";
+	alert(roomId);
+
+
+	var socket = new SockJS('/ws');
+	stompClient = Stomp.over(socket);
+	
+	stompClient.connect({}, onConnected, onError);
 }
 
-
-var currentPage = getCookie("currentPage");
-
-if(currentPage == null || currentPage == "login.html") {
-	setCookie("currentPage", "login.html");
-	var loginForm = document.querySelector('#loginForm');	
-} else if (currentPage == "register.html") {
-	var registerForm = document.querySelector('#registerForm');
-	
-} else if (currentPage == "user.html") {
-	
-} else if (currentPage == "chatlist.html") {
-	
-} else if (currentPage == "chatroom.html") {
-	var messageForm = document.querySelector('#messageForm');
-	var messageInput = document.querySelector('#message');
-	var messageArea = document.querySelector('#messageArea');
-	var connectingElement = document.querySelector('.connecting');
-} else {
-	currentPage = "error.html"
-}
-
-// document객체의 메서드를 통해 객체 찾기
-
-var socket = new SockJS('/ws');
+var socket = null;
 // server 소켓의 endpoint인 /ws로 접속할 클라이언트  소켓 생성.
 var stompClient = null;
-stompClient = Stomp.over(socket);
 
-var sessionUser = null;
-var name = null;
+var colors = [
+    '#2196F3', '#32c787', '#00BCD4', '#ff5652',
+    '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
+];
+// 색깔코드 배열
+
+
 // WebSocket은 웹 상에서 쉽게 소켓통신을 하게 해주는 라이브러리
 // 스프링에서는 SockJS 라이브러리와 STOMP 프로토콜을 사용 가능
 // SockJS는 WebSocket 기능 보완, 향상
@@ -56,39 +40,16 @@ var name = null;
 // 구독이라는 개념을 통해 내가 통신하고자 하는 주체(topic)를 판단하여 실시간, 지속적으로 관심을 가진다.
 // MesssageHandler에서 해당 요청시 처리 과정을 구현
 
-var colors = [
-    '#2196F3', '#32c787', '#00BCD4', '#ff5652',
-    '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
-];
-// 색깔코드 배열
+
 
 function connect(event) {
-	// 웹소켓으로 서버 접속
-    var id = document.querySelector('#userid').value.trim();
-    var pw = document.querySelector('#userpw').value.trim();
-    
-    /*
-    if(username) {
-        loginPage.classList.add('hidden');
-        chatPage.classList.remove('hidden');
-        stompClient.connect({}, onConnected, onError);
-        socket = new SockJS('/ws');
-        // /ws/{방번호}
-        // server 소켓의 endpoint인 /ws로 접속할 클라이언트  소켓 생성.
-        stompClient = Stomp.over(socket);
-        // stomp에 소켓 적용
- 		
-        
-    }
-    */
-    var user = {
-    		userId: id, 
-    		userPw: pw	
-    };
-    stompClient.send("/app/loginUser",
-        {},
-        JSON.stringify(user)
-    )
+	
+	
+	sessionRoomIds.forEach(function(element) {
+		stompClient.subscribe('/topic/' + element, onMessageReceived);
+	})
+	
+	
     sessionUser = sessionStorage.getItem(user);
     if(sessionUser)
     	name = sessionUser.name;
@@ -98,14 +59,8 @@ function connect(event) {
 
 
 function onConnected() {
-    // Subscribe to the Public Topic
-    stompClient.subscribe('/topic/public', onMessageReceived);
-    // Tell your username to the server
-    stompClient.send("/app/chat.addUser",
-        {},
-        JSON.stringify({sender: name, type: 'JOIN'})
-    )
-
+    
+    
     connectingElement.classList.add('hidden');
 }
 
@@ -120,7 +75,7 @@ function sendMessage(event) {
     var messageContent = messageInput.value.trim();
     if(messageContent && stompClient) {
         var chatMessage = {
-            sender: username,
+            sender: name,
             content: messageInput.value,
             type: 'CHAT'
         };
@@ -184,6 +139,7 @@ function getAvatarColor(messageSender) {
     // 아바타 색 랜덤 지정
 }
 
+/*
 function register() {
 	var registerForm=document.getElementById("registerForm"); //폼 name
 	
@@ -209,10 +165,4 @@ function register() {
     // registerForm.method="post";//POST방식
     // registerForm.submit();
 }
-
-
-
-// loginForm.addEventListener('submit', connect, true);
-// messageForm.addEventListener('submit', sendMessage, true);
-// registerForm.addEventListener('submit', register, true);
-// 버튼 EventListener 설정
+*/

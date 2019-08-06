@@ -1,6 +1,5 @@
-
 package com.example.websocketdemo.controller;
-/*
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +14,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.websocketdemo.domain.User;
 import com.example.websocketdemo.service.UserService;
 import com.example.websocketdemo.HttpSessionUtils;
 
-@RestController
+@Controller
+@RequestMapping("")
 public class UserController {
 	@Autowired UserService userService; 
 	// 의존성 주입(Dependency Injection)
@@ -28,30 +27,92 @@ public class UserController {
 	
 	// 유저 로그인
 	@GetMapping("")
-	public String index(@Valid User formUser, Model model) {
-		return "index";	
+	public String loginUser(Model model, HttpSession session, User formUser) { // formUser는 가변 매개변수 사용.
+		if (HttpSessionUtils.isLoginUser(session)) {
+			// 로그인 되어있는 경우 localhost:8080에서는 사용자 정보를 출력한다.
+			User user = HttpSessionUtils.getUserFromSession(session);
+			model.addAttribute("user", user);
+			return "user";
+		} else {
+			// 로그인이 되어있지 않을 때
+			if(formUser.getUserId() == null) {
+				// form에 입력된 정보도 없었다면
+				return "login";
+			} else {
+				// form에 입력된 정보가 있었다면
+				User user = userService.getUserByUserId(formUser.getUserId());
+				 
+				if(user == null) {
+					System.out.println("id error : ");
+					return "redirect:/";
+				} else if(!user.getUserPw().equals(formUser.getUserPw())) {
+					System.out.println("pw error : ");
+					return "redirect:/";
+				}
+				
+				session.setAttribute("user", user);
+				return "redirect:/";
+			}
+		}
 	}
 	
-	// 유저 등록
 	@PostMapping("")
-	public String createUser(@Valid User formUser, Model model) {
-		System.out.println("asdf");
-		System.out.println(formUser.getUserId());
-		System.out.println(formUser.getUserPw());
-		System.out.println(formUser.getName());
-		return "index";
-	}
-	
-	// 유저 삭제
-	@DeleteMapping("")
-	public String deleteUser(@Valid User formUser, Model model) {
-		return "index";
+	public String registerUser(Model model, User formUser, HttpSession session) {
+		if (HttpSessionUtils.isLoginUser(session)) {
+			// 로그인 되어있는 경우 localhost:8080에서는 사용자 정보를 출력한다.
+			User user = HttpSessionUtils.getUserFromSession(session);
+			model.addAttribute("user", user);
+			
+			return "user";
+		} else {
+			// 로그인이 되어있지 않을 때
+			if(formUser.getUserId().equals("") || formUser.getUserPw().equals("") || formUser.getName().equals("")) {
+				// form에 입력된 정보도 없었다면
+				return "register";
+			} else {
+				// form에 입력된 정보가 있었다면
+				User user = userService.getUserByUserId(formUser.getUserId());
+				if(user == null) {
+					userService.saveUser(formUser);
+					return "redirect:/";
+				} else {
+					return "redirect:/"; // POST방식(현재 메서드) 리턴하는 방법 알아보기
+				}
+			}
+		}
 	}
 	
 	// 유저 수정
 	@PutMapping("")
-	public String updateUser(@Valid User formUser, Model model) {
-		return "index";
+	public String updateUserById(@Valid User formUser, Model model, HttpSession session) {
+		User user = HttpSessionUtils.getUserFromSession(session);
+		user.setUserPw(formUser.getUserPw());
+		user.setName(formUser.getName());
+		
+		System.out.println(user.getId());
+		System.out.println(user.getUserId());
+		System.out.println(user.getUserPw());
+		System.out.println(user.getName());
+		
+		userService.updateUser(user);		
+		model.addAttribute("user", user);
+		session.setAttribute("user", user);
+		return "redirect:/";
+	}
+	
+	// 유저 삭제
+	@DeleteMapping("")
+	public String deleteUserById(Model model, HttpSession session) {
+		userService.deleteUser(HttpSessionUtils.getUserFromSession(session));
+		
+		session.invalidate();
+		return "redirect:/";
+	}
+	
+	// 로그아웃
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
 	}
 }
-*/

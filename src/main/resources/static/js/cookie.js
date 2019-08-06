@@ -1,3 +1,4 @@
+/*
 'use strict';
 // strict 모드 사용. 자바스크립트가 묵인했던 에러들의 에러 메시지 발생(엄격한 문법 검사)
 
@@ -21,3 +22,4 @@ var deleteCookie = function(name) {
 }
 //예시 : deleteCookie('favoriteColor'); 
 //결과 : Blue 삭제(만료 날짜를 1970년 1월 1일로 설정.)
+*/

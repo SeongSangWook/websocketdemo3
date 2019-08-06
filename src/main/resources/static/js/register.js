@@ -1,2 +1,6 @@
-'use strict';
-// strict 모드 사용. 자바스크립트가 묵인했던 에러들의 에러 메시지 발생(엄격한 문법 검사)
+var form = document.getElementById('registerForm');
+
+function register() {
+	form.setAttribute('method', 'post');
+	form.submit();
+}
