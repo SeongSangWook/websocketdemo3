@@ -20,16 +20,17 @@
 <div id="contents-page">
 	<div class="login-page-container">
 		<h1 class="title"><span th:text="${user.name}"></span> 님 어서오세요</h1>
-	    <form id="userupdateForm" name="userupdateForm" th:object="${user}">
+	    <form id="userUpdateForm" name="userupdateForm" th:object="${user}" method="post">
 	        <div class="form-group">
+	        	
 	            <input type="text" th:value="${user.userId}" th:field="*{userId}" id="updateuserid" placeholder="ID" autocomplete="off" class="form-control" readonly="true"/>
 	            <input type="text" th:value="${user.userPw}" th:field="*{userPw}" id="updateuserpw" placeholder="Password" autocomplete="off" class="form-control" />
 	            <input type="text" th:value="${user.name}" th:field="*{name}" id="updatename" placeholder="Nickname" autocomplete="off" class="form-control" />
 	        </div>
 	        <div class="form-group">
-	            <button class="accent" type="submit">정보 수정</button>
-	            <!-- <button class="accent submit" onClick="delete()">회원 탈퇴</button> -->
-	            <button class="accent" onClick="logout();">로그아웃</button>
+	            <button class="accent" id="btnUpdateUser">정보 수정</button>
+	            <button class="accent" id="btnDeleteUser">회원 탈퇴</button>
+	            <button class="accent" onClick="logout(); return false;">로그아웃</button>
 	        </div>
 	    </form>
 	</div>
