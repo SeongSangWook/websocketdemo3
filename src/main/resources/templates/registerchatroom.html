@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0"/>
+    <title>TitleName</title>
+    
+    <link rel="stylesheet" href="css/main.css" />	
+	
+	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="js/sockjs.min.js"></script>
+	<script src="js/stomp.min.js"></script>
+	<script src="js/cookie.js"></script>
+	<script src="js/main.js"></script>
+</head>
+<body>
+<noscript>
+    <h2>Sorry! Your browser doesn't support Javascript</h2>
+</noscript>
+
+<div id="contents-page">
+	<div class="login-page-container">
+		<h1 class="title"><span th:text="${user.name}"></span> 님 어서오세요</h1>
+	    <form id="formChatroom" name="chatroomRegisterForm" th:object="${chatroom}" method="post">
+	        <div class="form-group">
+	            <input type="text" th:value="${user.name}" th:field="*{name}" id="updatename" placeholder="Chatroom name" autocomplete="off" class="form-control" />
+            	인원1(userId) : 
+            		<select name="otherUserId">
+            				<option th:each="user : ${userlist}" th:value="${user.userId}" th:text="${user.userId}"></option>
+            		</select>
+            		<button class="accent" onClick="registerChatroom()">채팅방만들기</button>
+	        </div>
+	        
+	    </form>
+	</div>
+	
+	<script src="js/chatlist.js"></script> 
+</div>
+</body>
+</html>

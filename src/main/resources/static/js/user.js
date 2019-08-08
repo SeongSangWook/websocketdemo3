@@ -1,5 +1,3 @@
-
-
 $(document).ready(function() {
     $('#btnUpdateUser').click(function(){
     	$('#userUpdateForm').append("<input type='hidden' id='putOrDelete' name='_method' value='PUT'/>");
@@ -12,4 +10,8 @@ $(document).ready(function() {
 
 function logout() {
 	location.href = "/logout";
+}
+
+function chatlist() {
+	location.href = "/chat"
 }

@@ -19,39 +19,7 @@ import com.example.websocketdemo.repository.UserRepository;
 public class UserServiceImpl implements UserService {
 
 	@Autowired UserRepository repository;
-	/*
-	@Override
-	public User getUserById(long id) {
-		UserEntity userEntity = null;
-		try {
-			userEntity = repository.findById(id);
-		} catch (ResourceNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return userEntity.buildDomain();
-	}
 	
-	public List<User> getUsers() {
-		List<User> users = new ArrayList<User>();
-		List<UserEntity> entities = repository.findAll();
-		for(UserEntity entity : entities) {
-			User user = entity.buildDomain();
-			users.add(user);
-		}
-		return users;
-	}
-	@Override
-	public List<User> getUsersByName(String name) {
-		List<User> users = new ArrayList<User>();
-		List<UserEntity> entities = repository.findByNameOrderByIdAsc(name);
-		for(UserEntity entity : entities) {
-			User user = entity.buildDomain();
-			users.add(user);
-		}
-		return users;
-	}
-	*/
 	@Override
 	public List<User> getUsers() {
 		List<User> users = new ArrayList<User>();
@@ -85,6 +53,7 @@ public class UserServiceImpl implements UserService {
 	public void updateUser(User user) {
 		UserEntity entity = new UserEntity();
 		entity.buildEntity(user);
+		
 		repository.save(entity);
 	}
 
@@ -92,6 +61,7 @@ public class UserServiceImpl implements UserService {
 	public void deleteUser(User user) {
 		UserEntity entity = new UserEntity();
 		entity.buildEntity(user);
+		
 		repository.delete(entity);
 	}
 }

@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import com.example.websocketdemo.domain.Chatroom;
+import com.example.websocketdemo.domain.Message;
 import com.example.websocketdemo.domain.User;
 
 @Entity
@@ -36,10 +38,7 @@ public class UserEntity {
 	@OneToMany(mappedBy="user")
 	private List<MessageEntity> messages = new ArrayList<MessageEntity>();
 	
-	@ManyToMany
-	@JoinTable(name="User_Chatroom",
-			joinColumns = @JoinColumn(name = "user_id"),
-			inverseJoinColumns = @JoinColumn(name = "chatroom_id"))
+	@ManyToMany(mappedBy="users")
 	private List<ChatroomEntity> chatrooms = new ArrayList<ChatroomEntity>();
 	
 	// 얼굴 사진 profile 필드, 생략
@@ -87,20 +86,21 @@ public class UserEntity {
 		user.setUserId(userId);
 		user.setUserPw(userPw);
 		user.setName(name);
-		/*
-		for(int i=0;i<messages.size();i++) {
-			// List 인터페이스의 size()메서드는 List 내부의 요소들의 갯수를 의미한다.
-			user.getMessages().add(messages.get(i).buildDomain());
-			// List 인터페이스의 add 메서드는 List에 요소를 추가한다.
-			// List 인터페이스의 get 메서드는 List에서 i번째 요소를 return 한다.
+		
+		List<Message> userMessages = new ArrayList<Message>();
+		for(MessageEntity message : messages) {
+			userMessages.add(message.buildDomain());
+			// user.getMessages().add(message.buildDomain());
 		}
-		for(int i=0;i<chatrooms.size();i++) {
-			// List 인터페이스의 size()메서드는 List 내부의 요소들의 갯수를 의미한다.
-			user.getChatrooms().add(chatrooms.get(i).buildDomain());
-			// List 인터페이스의 add 메서드는 List에 요소를 추가한다.
-			// List 인터페이스의 get 메서드는 List에서 i번째 요소를 return 한다.
+		user.setMessages(userMessages);
+		
+		List<Chatroom> userChatrooms = new ArrayList<Chatroom>();
+		for(ChatroomEntity chatroom : chatrooms) {
+			// user.getChatrooms().add(chatroom.buildDomain());
+			userChatrooms.add(chatroom.buildDomain());
 		}
-		*/
+		user.setChatrooms(userChatrooms);
+		
 		return user;
 	}
 	public void buildEntity(User user) {

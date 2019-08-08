@@ -74,10 +74,11 @@ public class UserController {
 				User user = userService.getUserByUserId(formUser.getUserId());
 				if(user == null) {
 					userService.saveUser(formUser);
-					return "redirect:/";
+					// return "redirect:/";
 				} else {
-					return "redirect:/"; // POST방식(현재 메서드) 리턴하는 방법 알아보기
+					// return "redirect:/"; // POST방식(현재 메서드) 리턴하는 방법 알아보기
 				}
+				return "redirect:/";
 			}
 		}
 	}

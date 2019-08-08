@@ -19,13 +19,23 @@
 
 <div id="contents-page">	
 	<div class="login-page-container">
-	    <h1 class="title">chatlist</h1>
-	    <form id="registerForm" name="registerForm">
+	    <h1 class="title">Chatlist</h1>
+	    <form id="Chatlist">
 	        <div class="form-group">
-	            채팅방 만들기 버튼
+	            <button class="accent" style="float: right;" onclick="registerChatroom();">채팅방 만들기</button>
 	        </div>
 	        <div class="form-group">
-	            채팅방목록
+	            <article th:each="chatroom : ${user.chatrooms}">
+							
+					<div>
+						<a th:href="@{'/chat/{id}'(id=${chatroom.id})}">
+							<span th:text="${chatroom.name}"></span>
+						</a>
+						<ul>
+							<!-- 가능하면 가장 최근 메시지와 보지 않은 메시지 갯수 표시 -->
+						</ul>
+					</div>
+				</article>
 	        </div>
 	    </form>
 	</div>
