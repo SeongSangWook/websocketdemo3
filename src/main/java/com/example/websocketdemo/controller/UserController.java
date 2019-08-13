@@ -32,7 +32,7 @@ public class UserController {
 			// 로그인 되어있는 경우 localhost:8080에서는 사용자 정보를 출력한다.
 			User user = HttpSessionUtils.getUserFromSession(session);
 			model.addAttribute("user", user);
-			return "user";
+			return "chatlist"; //원래 user였음
 		} else {
 			// 로그인이 되어있지 않을 때
 			if(formUser.getUserId() == null) {
@@ -116,4 +116,17 @@ public class UserController {
 		session.invalidate();
 		return "redirect:/";
 	}
+	
+	//chatlist에서 회원정보 버튼 클릭시 user로 가게
+	@GetMapping("/user")
+	public String menuUser(Model model, HttpSession session, User formUser) { // formUser는 가변 매개변수 사용.
+		if (HttpSessionUtils.isLoginUser(session)) {
+			// 로그인 되어있는 경우 localhost:8080에서는 사용자 정보를 출력한다.
+			User user = HttpSessionUtils.getUserFromSession(session);
+			model.addAttribute("user", user);
+			return "user"; //원래 user였음
+		}
+		return "chatlist";
+	}
+	
 }

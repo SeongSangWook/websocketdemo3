@@ -3,7 +3,9 @@ function login() {
 	form.setAttribute('method', 'get');
 	form.submit();
 }
-
+function user() {
+	location.href = "/user";
+}
 function goToRegister() {
 	form.setAttribute('method', 'post');
 	form.submit();
