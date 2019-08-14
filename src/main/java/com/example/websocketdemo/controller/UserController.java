@@ -32,7 +32,7 @@ public class UserController {
 			// 로그인 되어있는 경우 localhost:8080에서는 사용자 정보를 출력한다.
 			User user = HttpSessionUtils.getUserFromSession(session);
 			model.addAttribute("user", user);
-			return "chatlist"; //원래 user였음
+			return "redirect:/chat"; //원래 user였음
 		} else {
 			// 로그인이 되어있지 않을 때
 			if(formUser.getUserId() == null) {
